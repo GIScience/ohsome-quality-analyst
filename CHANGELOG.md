@@ -2,6 +2,10 @@
 
 ## Current Main
 
+### New Features
+
+- Generalize result values of all Indicators by introducing a result class value ([#369])
+
 ### Breaking Changes
 
 - Make inclusion of indicator data in response optional ([#370])
@@ -11,9 +15,12 @@
 
 - To continue to retrieve additional data of an Indicator or Report provided in an API response, you need to set the API request parameter `include_data` to `True` ([#370])
 - To continue to retrieve the properties of the GeoJSON API response as flat list, you need to set the API request parameter `flattem` to `True` ([#375])
+- If you run your own database, please delete the result table before upgrading ([#369])
 
+[#369]: https://github.com/GIScience/ohsome-quality-analyst/pull/369
 [#370]: https://github.com/GIScience/ohsome-quality-analyst/pull/370
 [#375]: https://github.com/GIScience/ohsome-quality-analyst/pull/375
+
 
 ## 0.10.0
 

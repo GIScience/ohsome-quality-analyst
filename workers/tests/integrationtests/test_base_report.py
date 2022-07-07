@@ -28,7 +28,6 @@ class TestBaseReport(unittest.TestCase):
             "indicators.0.data.area",
             "indicators.0.data.pop_count_per_sqkm",
             "indicators.0.data.feature_count",
-            "indicators.0.data.feature_count_per_sqkm",
         ):
             self.assertIn(i, feature["properties"].keys())
 

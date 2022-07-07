@@ -2,6 +2,7 @@ import asyncio
 import unittest
 from unittest import mock
 
+from ohsome_quality_analyst.base.indicator import Result
 from ohsome_quality_analyst.geodatabase import client as db_client
 from ohsome_quality_analyst.indicators.ghs_pop_comparison_buildings.indicator import (
     GhsPopComparisonBuildings,
@@ -37,7 +38,6 @@ class TestBaseIndicator(unittest.TestCase):
             "area",
             "pop_count_per_sqkm",
             "feature_count",
-            "feature_count_per_sqkm",
         ):
             assert key in feature["properties"]["data"]
 
@@ -61,3 +61,11 @@ class TestBaseIndicator(unittest.TestCase):
     def test_attribution_class_property(self):
         self.assertIsNotNone(GhsPopComparisonBuildings.attribution())
         self.assertIsInstance(GhsPopComparisonBuildings.attribution(), str)
+
+
+class TestBaseResult(unittest.TestCase):
+    def test_label(self):
+        result = Result("", "", "")
+        assert result.label == "undefined"
+        result.class_ = 4
+        assert result.label == "green"
