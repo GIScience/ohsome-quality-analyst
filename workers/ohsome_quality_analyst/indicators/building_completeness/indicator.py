@@ -58,6 +58,7 @@ class BuildingCompleteness(BaseIndicator):
         self,
         layer: Layer,
         feature: Feature,
+        thresholds: Tuple[float, float, float, float] = (0.2, 0.5, 0.8, 0.9)
     ) -> None:
         super().__init__(
             layer=layer,

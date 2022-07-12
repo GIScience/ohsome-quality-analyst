@@ -15,6 +15,8 @@ import yaml
 from ohsome_quality_analyst import __version__ as oqt_version
 from ohsome_quality_analyst.utils.exceptions import RasterDatasetUndefinedError
 from ohsome_quality_analyst.utils.helper import flatten_sequence, get_module_dir
+from ohsome_quality_analyst.base.layer import BaseLayer as Layer
+from ohsome_quality_analyst.base.indicator import BaseIndicator as Indicator
 
 # Dataset names and fid fields which are available in the Geodatabase
 DATASETS = MappingProxyType(  # Immutable dict
@@ -50,6 +52,21 @@ class RasterDataset:
     nodata: Optional[int]
 
 
+@dataclass(frozen=True)
+class IndicatorLayer:
+    """Valid Indicator/Layer combinations with optional threshold values.
+
+    Args:
+        indicator: Indicator name
+        filename: Layer name
+        thresholds: A tuple with thresholds values
+    """
+
+    indicator: str
+    layer: str
+    threshold: Optional[Tuple[float, float, float, float]] = None
+
+
 RASTER_DATASETS = (
     RasterDataset(
         "GHS_BUILT_R2018A",
@@ -79,8 +96,8 @@ RASTER_DATASETS = (
 
 
 # Possible indicator layer combinations
-INDICATOR_LAYER = (
-    ("BuildingCompleteness", "building_area"),
+INDICATOR_LAYER_THRESHOLDS = (
+    ("BuildingCompleteness", "building_area", ()),
     ("GhsPopComparisonBuildings", "building_count"),
     ("GhsPopComparisonRoads", "jrc_road_length"),
     ("GhsPopComparisonRoads", "major_roads_length"),
