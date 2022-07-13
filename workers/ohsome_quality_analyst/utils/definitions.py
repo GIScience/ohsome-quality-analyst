@@ -7,7 +7,7 @@ import os
 import sys
 from dataclasses import dataclass
 from types import MappingProxyType
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 import rpy2.rinterface_lib.callbacks
 import yaml
@@ -50,6 +50,21 @@ class RasterDataset:
     nodata: Optional[int]
 
 
+@dataclass(frozen=True)
+class IndicatorLayerThreshold:
+    """Valid Indicator/Layer combinations with optional threshold values.
+
+    Args:
+        indicator (str): Indicator name
+        layer (str): Layer name
+        thresholds (tuple): A tuple with thresholds values
+    """
+
+    indicator: str
+    layer: str
+    threshold: Optional[Tuple[float, float, float, float]] = None
+
+
 RASTER_DATASETS = (
     RasterDataset(
         "GHS_BUILT_R2018A",
@@ -79,56 +94,56 @@ RASTER_DATASETS = (
 
 
 # Possible indicator layer combinations
-INDICATOR_LAYER = (
-    ("BuildingCompleteness", "building_area"),
-    ("GhsPopComparisonBuildings", "building_count"),
-    ("GhsPopComparisonRoads", "jrc_road_length"),
-    ("GhsPopComparisonRoads", "major_roads_length"),
-    ("MappingSaturation", "building_count"),
-    ("MappingSaturation", "major_roads_length"),
-    ("MappingSaturation", "amenities"),
-    ("MappingSaturation", "jrc_health_count"),
-    ("MappingSaturation", "jrc_mass_gathering_sites_count"),
-    ("MappingSaturation", "jrc_railway_length"),
-    ("MappingSaturation", "jrc_road_length"),
-    ("MappingSaturation", "jrc_education_count"),
-    ("MappingSaturation", "mapaction_settlements_count"),
-    ("MappingSaturation", "mapaction_major_roads_length"),
-    ("MappingSaturation", "mapaction_rail_length"),
-    ("MappingSaturation", "mapaction_lakes_area"),
-    ("MappingSaturation", "mapaction_rivers_length"),
-    ("MappingSaturation", "ideal_vgi_infrastructure"),
-    ("MappingSaturation", "poi"),
-    ("MappingSaturation", "lulc"),
-    ("Currentness", "major_roads_count"),
-    ("Currentness", "building_count"),
-    ("Currentness", "amenities"),
-    ("Currentness", "jrc_health_count"),
-    ("Currentness", "jrc_education_count"),
-    ("Currentness", "jrc_road_count"),
-    ("Currentness", "jrc_railway_count"),
-    ("Currentness", "jrc_airport_count"),
-    ("Currentness", "jrc_water_treatment_plant_count"),
-    ("Currentness", "jrc_power_generation_plant_count"),
-    ("Currentness", "jrc_cultural_heritage_site_count"),
-    ("Currentness", "jrc_bridge_count"),
-    ("Currentness", "jrc_mass_gathering_sites_count"),
-    ("Currentness", "mapaction_settlements_count"),
-    ("Currentness", "mapaction_major_roads_length"),
-    ("Currentness", "mapaction_rail_length"),
-    ("Currentness", "mapaction_lakes_count"),
-    ("Currentness", "mapaction_rivers_length"),
-    ("PoiDensity", "poi"),
-    ("TagsRatio", "building_count"),
-    ("TagsRatio", "major_roads_length"),
-    ("TagsRatio", "jrc_health_count"),
-    ("TagsRatio", "jrc_education_count"),
-    ("TagsRatio", "jrc_road_length"),
-    ("TagsRatio", "jrc_airport_count"),
-    ("TagsRatio", "jrc_power_generation_plant_count"),
-    ("TagsRatio", "jrc_cultural_heritage_site_count"),
-    ("TagsRatio", "jrc_bridge_count"),
-    ("TagsRatio", "jrc_mass_gathering_sites_count"),
+INDICATOR_LAYER_THRESHOLDS = (
+    IndicatorLayerThreshold("BuildingCompleteness", "building_area"),
+    IndicatorLayerThreshold("GhsPopComparisonBuildings", "building_count"),
+    IndicatorLayerThreshold("GhsPopComparisonRoads", "jrc_road_length"),
+    IndicatorLayerThreshold("GhsPopComparisonRoads", "major_roads_length"),
+    IndicatorLayerThreshold("MappingSaturation", "building_count"),
+    IndicatorLayerThreshold("MappingSaturation", "major_roads_length"),
+    IndicatorLayerThreshold("MappingSaturation", "amenities"),
+    IndicatorLayerThreshold("MappingSaturation", "jrc_health_count"),
+    IndicatorLayerThreshold("MappingSaturation", "jrc_mass_gathering_sites_count"),
+    IndicatorLayerThreshold("MappingSaturation", "jrc_railway_length"),
+    IndicatorLayerThreshold("MappingSaturation", "jrc_road_length"),
+    IndicatorLayerThreshold("MappingSaturation", "jrc_education_count"),
+    IndicatorLayerThreshold("MappingSaturation", "mapaction_settlements_count"),
+    IndicatorLayerThreshold("MappingSaturation", "mapaction_major_roads_length"),
+    IndicatorLayerThreshold("MappingSaturation", "mapaction_rail_length"),
+    IndicatorLayerThreshold("MappingSaturation", "mapaction_lakes_area"),
+    IndicatorLayerThreshold("MappingSaturation", "mapaction_rivers_length"),
+    IndicatorLayerThreshold("MappingSaturation", "ideal_vgi_infrastructure"),
+    IndicatorLayerThreshold("MappingSaturation", "poi"),
+    IndicatorLayerThreshold("MappingSaturation", "lulc"),
+    IndicatorLayerThreshold("Currentness", "major_roads_count"),
+    IndicatorLayerThreshold("Currentness", "building_count"),
+    IndicatorLayerThreshold("Currentness", "amenities"),
+    IndicatorLayerThreshold("Currentness", "jrc_health_count"),
+    IndicatorLayerThreshold("Currentness", "jrc_education_count"),
+    IndicatorLayerThreshold("Currentness", "jrc_road_count"),
+    IndicatorLayerThreshold("Currentness", "jrc_railway_count"),
+    IndicatorLayerThreshold("Currentness", "jrc_airport_count"),
+    IndicatorLayerThreshold("Currentness", "jrc_water_treatment_plant_count"),
+    IndicatorLayerThreshold("Currentness", "jrc_power_generation_plant_count"),
+    IndicatorLayerThreshold("Currentness", "jrc_cultural_heritage_site_count"),
+    IndicatorLayerThreshold("Currentness", "jrc_bridge_count"),
+    IndicatorLayerThreshold("Currentness", "jrc_mass_gathering_sites_count"),
+    IndicatorLayerThreshold("Currentness", "mapaction_settlements_count"),
+    IndicatorLayerThreshold("Currentness", "mapaction_major_roads_length"),
+    IndicatorLayerThreshold("Currentness", "mapaction_rail_length"),
+    IndicatorLayerThreshold("Currentness", "mapaction_lakes_count"),
+    IndicatorLayerThreshold("Currentness", "mapaction_rivers_length"),
+    IndicatorLayerThreshold("PoiDensity", "poi"),
+    IndicatorLayerThreshold("TagsRatio", "building_count"),
+    IndicatorLayerThreshold("TagsRatio", "major_roads_length"),
+    IndicatorLayerThreshold("TagsRatio", "jrc_health_count"),
+    IndicatorLayerThreshold("TagsRatio", "jrc_education_count"),
+    IndicatorLayerThreshold("TagsRatio", "jrc_road_length"),
+    IndicatorLayerThreshold("TagsRatio", "jrc_airport_count"),
+    IndicatorLayerThreshold("TagsRatio", "jrc_power_generation_plant_count"),
+    IndicatorLayerThreshold("TagsRatio", "jrc_cultural_heritage_site_count"),
+    IndicatorLayerThreshold("TagsRatio", "jrc_bridge_count"),
+    IndicatorLayerThreshold("TagsRatio", "jrc_mass_gathering_sites_count"),
 )
 OHSOME_API = os.getenv("OHSOME_API", default="https://api.ohsome.org/v1/").rstrip("/")
 # Input geometry size limit in sqkm for API requests
@@ -367,9 +382,9 @@ def get_attribution(data_keys: list) -> str:
 
 def get_valid_layers(indcator_name: str) -> tuple:
     """Get valid Indicator/Layer combination of an Indicator."""
-    return tuple([tup[1] for tup in INDICATOR_LAYER if tup[0] == indcator_name])
+    return tuple([tup[1] for tup in INDICATOR_LAYER_THRESHOLDS if tup[0] == indcator_name])
 
 
 def get_valid_indicators(layer_name: str) -> tuple:
     """Get valid Indicator/Layer combination of a Layer."""
-    return tuple([tup[0] for tup in INDICATOR_LAYER if tup[1] == layer_name])
+    return tuple([tup[0] for tup in INDICATOR_LAYER_THRESHOLDS if tup[1] == layer_name])

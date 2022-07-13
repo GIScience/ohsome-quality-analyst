@@ -8,7 +8,7 @@ from abc import ABCMeta, abstractmethod
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from io import StringIO
-from typing import Dict, Literal, Optional
+from typing import Dict, Literal, Optional, Tuple
 
 import matplotlib.pyplot as plt
 from dacite import from_dict
@@ -57,15 +57,24 @@ class Result:
 
 
 class BaseIndicator(metaclass=ABCMeta):
-    """The base class of every indicator."""
+    """The base class of every indicator.
+
+    Attributes:
+        thresholds (tuple): A tuple with four float values representing the thresholds
+            between the result classes. The first element is the threshold between the
+            result class 1 and 2, the second element is the threshold between the result
+            class 2 and 3 and so on.
+    """
 
     def __init__(
         self,
         layer: Layer,
         feature: Feature,
+        thresholds: Tuple[float, float, float, float],
     ) -> None:
         self.layer: Layer = layer
         self.feature: Feature = feature
+        self.thresholds: Tuple[float, float, float, float] = thresholds
         # setattr(object, key, value) could be used instead of relying on from_dict.
         metadata = get_metadata("indicators", type(self).__name__)
         self.metadata: Metadata = from_dict(data_class=Metadata, data=metadata)
