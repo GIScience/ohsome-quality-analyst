@@ -8,7 +8,7 @@ from abc import ABCMeta, abstractmethod
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from io import StringIO
-from typing import Dict, Literal, Optional
+from typing import Dict, Literal, Optional, Tuple
 
 import matplotlib.pyplot as plt
 from dacite import from_dict
@@ -70,7 +70,7 @@ class BaseIndicator(metaclass=ABCMeta):
         self,
         layer: Layer,
         feature: Feature,
-        thresholds: Tuple[float, float, float, float]
+        thresholds: Tuple[float, float, float, float],
     ) -> None:
         self.layer: Layer = layer
         self.feature: Feature = feature

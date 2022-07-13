@@ -16,7 +16,7 @@ from pydantic import BaseModel
 
 from ohsome_quality_analyst.base.layer import LayerData
 from ohsome_quality_analyst.utils.definitions import (
-    INDICATOR_LAYER,
+    INDICATOR_LAYER_THRESHOLDS,
     get_dataset_names_api,
     get_fid_fields_api,
     get_indicator_names,
