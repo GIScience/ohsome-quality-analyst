@@ -19,6 +19,8 @@
 - Remove unused report `RemoteMappingLevelOne` ([#380])
 - Substitute Simple Report with a Report named Minimal for testing purposes ([#342] [#385])
 - Add a minimal Indicator for testing purposes ([#383])
+- Remove artifacts of database setup of ohsomeHeX Isea hex-cells ([#310])
+- Restructure database setup ([#310])
 
 ### How to Upgrade
 
@@ -26,6 +28,7 @@
 - To continue to retrieve additional data of an Indicator or Report provided in an API response, you need to set the API request parameter `include_data` to `True` ([#370])
 - To continue to retrieve the properties of the GeoJSON API response as flat list, you need to set the API request parameter `flattem` to `True` ([#375])
 
+[#310]: https://github.com/GIScience/ohsome-quality-analyst/pull/310
 [#342]: https://github.com/GIScience/ohsome-quality-analyst/pull/342
 [#356]: https://github.com/GIScience/ohsome-quality-analyst/pull/356
 [#357]: https://github.com/GIScience/ohsome-quality-analyst/pull/357
@@ -65,7 +68,6 @@
 
 - Improve documentation and examples of the API ([#299])
 - Factor out template logic to own module ([#302])
-- Remove artifacts of database setup for GHSL raster datasets ([#310])
 - Add hex-cells at zoom level 12 for Africa to the database ([#314])
 - Disable size limit on input AOI if OSM data is provided through a request with a custom Layer object ([#330])
 
@@ -76,7 +78,6 @@
 [#302]: https://github.com/GIScience/ohsome-quality-analyst/pull/302
 [#303]: https://github.com/GIScience/ohsome-quality-analyst/pull/303
 [#307]: https://github.com/GIScience/ohsome-quality-analyst/pull/307
-[#310]: https://github.com/GIScience/ohsome-quality-analyst/pull/310
 [#314]: https://github.com/GIScience/ohsome-quality-analyst/pull/314
 [#330]: https://github.com/GIScience/ohsome-quality-analyst/pull/330
 [#345]: https://github.com/GIScience/ohsome-quality-analyst/pull/345
