@@ -31,6 +31,7 @@
 - Substitute Simple Report with a Report named Minimal for testing purposes ([#342] [#385])
 - Add a minimal Indicator for testing purposes ([#383])
 - Remove database scripts ([#392])
+- Move example rasters of data directory to test fixtures ([#312])
 
 ### How to Upgrade
 
@@ -51,6 +52,7 @@
 | `fidFields`                  | `fid-fields`                   |
 
 [#255]: https://github.com/GIScience/ohsome-quality-analyst/pull/255
+[#312]: https://github.com/GIScience/ohsome-quality-analyst/pull/312
 [#342]: https://github.com/GIScience/ohsome-quality-analyst/pull/342
 [#356]: https://github.com/GIScience/ohsome-quality-analyst/pull/356
 [#357]: https://github.com/GIScience/ohsome-quality-analyst/pull/357
