@@ -1,46 +1,48 @@
 import asyncio
-import unittest
+import os
 from datetime import datetime
 
-from ohsome_quality_analyst.geodatabase import client as db_client
+import pytest
+
 from ohsome_quality_analyst.indicators.ghs_pop_comparison_roads.indicator import (
     GhsPopComparisonRoads,
 )
 
-from .utils import get_layer_fixture, oqt_vcr
+from .utils import get_fixture_dir, get_geojson_fixture, get_layer_fixture, oqt_vcr
 
 
-class TestIndicatorGhsPopComparisonRoads(unittest.TestCase):
-    def setUp(self):
-        # Heidelberg
-        feature = asyncio.run(
-            db_client.get_feature_from_db(dataset="regions", feature_id="3")
-        )
-        self.indicator = GhsPopComparisonRoads(
-            feature=feature,
-            layer=get_layer_fixture("major_roads_length"),
-        )
-
-    @oqt_vcr.use_cassette()
-    def test(self):
-        asyncio.run(self.indicator.preprocess())
-        self.assertIsNotNone(self.indicator.pop_count)
-        self.assertIsNotNone(self.indicator.area)
-        self.assertIsNotNone(self.indicator.feature_length)
-        self.assertIsNotNone(self.indicator.feature_length_per_sqkm)
-        self.assertIsNotNone(self.indicator.pop_count_per_sqkm)
-        self.assertIsNotNone(self.indicator.attribution())
-        self.assertIsInstance(self.indicator.result.timestamp_osm, datetime)
-        self.assertIsInstance(self.indicator.result.timestamp_oqt, datetime)
-
-        self.indicator.calculate()
-        self.assertIsNotNone(self.indicator.result.label)
-        self.assertIsNotNone(self.indicator.result.value)
-        self.assertIsNotNone(self.indicator.result.description)
-
-        self.indicator.create_figure()
-        self.assertIsNotNone(self.indicator.result.svg)
+@pytest.fixture
+def mock_env_oqt_data_dir(monkeypatch):
+    directory = os.path.join(get_fixture_dir(), "rasters")
+    monkeypatch.setenv("OQT_DATA_DIR", directory)
 
 
-if __name__ == "__main__":
-    unittest.main()
+@oqt_vcr.use_cassette()
+def test(mock_env_oqt_data_dir):
+    feature = get_geojson_fixture("algeria-touggourt-feature.geojson")
+    layer = get_layer_fixture("major_roads_length")
+    indicator = GhsPopComparisonRoads(feature=feature, layer=layer)
+
+    asyncio.run(indicator.preprocess())
+    for attribute in (
+        indicator.pop_count,
+        indicator.area,
+        indicator.feature_length,
+        indicator.feature_length_per_sqkm,
+        indicator.pop_count_per_sqkm,
+        indicator.attribution(),
+    ):
+        assert attribute is not None
+    assert isinstance(indicator.result.timestamp_osm, datetime)
+    assert isinstance(indicator.result.timestamp_oqt, datetime)
+
+    indicator.calculate()
+    for attribute in (
+        indicator.result.label,
+        indicator.result.value,
+        indicator.result.description,
+    ):
+        assert attribute is not None
+
+    indicator.create_figure()
+    assert indicator.result.svg is not None
