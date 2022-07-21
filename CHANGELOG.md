@@ -5,6 +5,7 @@
 ### Breaking Changes
 
 - Rename environment variable `OHSOME_API` to `OQT_OHSOME_API` ([#255])
+- Change default data directory to be in workers directory ([#312])
 
 ### Bug Fixes
 
